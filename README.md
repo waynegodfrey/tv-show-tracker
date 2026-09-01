@@ -65,7 +65,7 @@ encoded, with no edit required.
 - **Fire Country** — Paramount+/CBS — S5 premieres 2026-10-09
 - **Ballard** — Prime Video — S2 renewed, no confirmed date (est. late 2026-early 2027)
 - **Matlock** — Paramount+/CBS — S3 renewed, midseason, expected ~Jan 2027, no confirmed date
-- **NCIS: Sydney** — Paramount+/CBS — S4 renewed, no confirmed date (expected 2027)
+- **NCIS: Sydney** — Paramount+/CBS — S4 renewed, no confirmed date (expected January 2027, midseason)
 - **Landman** — Paramount+ — S3 renewed, filming Sep 2026-Q1 2027, outlook mid-to-late 2027
 - **Ride or Die** — Prime Video — S2 renewed (confirmed Aug 31, 2026), no premiere date yet
 - **Watson** — Paramount+/CBS — cancelled by CBS March 2026 after 2 seasons
