@@ -1,0 +1,702 @@
+<title>Godfrey Show Tracker</title>
+<style>
+  :root {
+    --bg: #f5f4f2;
+    --surface: #ffffff;
+    --border: #e2e0db;
+    --text: #22201c;
+    --text-dim: #6b6862;
+    --accent: #b5472b;
+    --accent-soft: #f2e2dc;
+    --live: #2f6d4f;
+    --live-soft: #e2efe7;
+    --wait: #9c7a1f;
+    --wait-soft: #f5edd9;
+    --done: #756f66;
+    --done-soft: #e9e6e0;
+    --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 14px rgba(0,0,0,0.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17161a;
+      --surface: #201f24;
+      --border: #34323a;
+      --text: #ece9e4;
+      --text-dim: #a29d95;
+      --accent: #e0805f;
+      --accent-soft: #3a2620;
+      --live: #7fd9ab;
+      --live-soft: #1c3229;
+      --wait: #e0c15a;
+      --wait-soft: #3a3320;
+      --done: #b6b0a6;
+      --done-soft: #302e2c;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17161a;
+    --surface: #201f24;
+    --border: #34323a;
+    --text: #ece9e4;
+    --text-dim: #a29d95;
+    --accent: #e0805f;
+    --accent-soft: #3a2620;
+    --live: #7fd9ab;
+    --live-soft: #1c3229;
+    --wait: #e0c15a;
+    --wait-soft: #3a3320;
+    --done: #b6b0a6;
+    --done-soft: #302e2c;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0 1.5rem 4rem;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; }
+
+  .banner {
+    margin: 0 -1.5rem 2rem;
+    padding: 2.6rem 1.5rem 2.2rem;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 160% at 15% -20%, rgba(255,255,255,0.16), transparent 55%),
+      linear-gradient(120deg, #7a2418 0%, #b5472b 45%, #d97a3f 100%);
+    color: #fdf4ee;
+    text-align: center;
+    isolation: isolate;
+  }
+  .banner::before,
+  .banner::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    height: 14px;
+    background-image: radial-gradient(circle, rgba(0,0,0,0.35) 3.5px, transparent 3.6px);
+    background-size: 26px 14px;
+    background-repeat: repeat-x;
+    background-position: 13px center;
+    opacity: 0.5;
+  }
+  .banner::before { top: 0; }
+  .banner::after { bottom: 0; }
+  .banner-icons {
+    font-size: 1.3rem;
+    letter-spacing: 0.5rem;
+    opacity: 0.85;
+    margin-bottom: 0.5rem;
+  }
+  .banner h1 {
+    margin: 0;
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.18);
+  }
+  .banner .sub {
+    color: #fbe6d8;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    opacity: 0.95;
+  }
+  .banner .tape {
+    position: absolute;
+    top: 10px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.28);
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+  }
+  .banner .tape.left { left: 20px; }
+  .banner .tape.right { right: 20px; }
+
+  header { margin: 0 0 1.6rem; }
+  .updated { color: var(--text-dim); font-size: 0.8rem; margin-top: 0.6rem; text-align: center; }
+
+  .week-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    margin-bottom: 0.6rem;
+  }
+  .week-strip {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.4rem;
+    margin-bottom: 2.2rem;
+  }
+  .week-day {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.55rem 0.2rem 0.6rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .week-day.today { border-color: var(--accent); box-shadow: 0 0 0 1.5px var(--accent); }
+  .week-day .dow {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-size: 0.6rem;
+    letter-spacing: 0.03em;
+  }
+  .week-day .dom {
+    font-weight: 800;
+    font-size: 1.05rem;
+    margin: 0.15rem 0 0.3rem;
+  }
+  .week-day .show {
+    font-size: 0.66rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.25;
+    word-break: break-word;
+  }
+  .week-day .show span { display: block; }
+  .week-day .show.multi { font-size: 0.6rem; line-height: 1.3; }
+  .week-day .none { font-size: 0.9rem; color: var(--text-dim); opacity: 0.35; }
+  @media (max-width: 480px) {
+    .week-strip { gap: 0.25rem; }
+    .week-day { padding: 0.45rem 0.1rem 0.5rem; }
+    .week-day .dom { font-size: 0.92rem; }
+    .week-day .show { font-size: 0.58rem; }
+    .week-day .show.multi { font-size: 0.52rem; }
+  }
+
+  h2.section {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    margin: 2.2rem 0 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  h2.section::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 1rem 1.2rem;
+    margin-bottom: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .card-main { flex: 1; min-width: 200px; }
+  .title-row { display: flex; align-items: baseline; gap: 0.55rem; flex-wrap: wrap; }
+  .show-title { font-size: 1.05rem; font-weight: 600; }
+  .service {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .detail { color: var(--text-dim); font-size: 0.86rem; margin-top: 0.25rem; }
+
+  .status {
+    text-align: right;
+    min-width: 150px;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    margin-bottom: 0.3rem;
+  }
+  .badge.live { background: var(--live-soft); color: var(--live); }
+  .badge.wait { background: var(--wait-soft); color: var(--wait); }
+  .badge.done { background: var(--done-soft); color: var(--done); }
+  .status-date { font-size: 0.88rem; font-weight: 600; }
+  .status-note { font-size: 0.78rem; color: var(--text-dim); }
+  .recent { font-size: 0.78rem; color: var(--text-dim); margin-top: 0.15rem; }
+  .recent b { color: var(--text); font-weight: 600; }
+
+  footer {
+    margin-top: 2.5rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+</style>
+
+<div class="banner">
+  <span class="tape left">Season Pass</span>
+  <span class="tape right">Now Streaming</span>
+  <div class="banner-icons">🎬 📺 🍿</div>
+  <h1>Godfrey Household Favorite Shows</h1>
+  <div class="sub">Who's streaming where, and when the next episode drops</div>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="updated">Last checked: August 31, 2026 · times shown in US Eastern</div>
+  </header>
+
+  <div class="week-label" id="weekLabel">This Week</div>
+  <div class="week-strip" id="weekStrip"></div>
+
+  <h2 class="section">New Episodes Now</h2>
+
+  <div id="airingList">
+  <div class="card" data-show="reacher" data-name="Reacher" data-mode="cadence" data-weekday="3" data-start="2026-08-12" data-end="2026-09-16">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">Reacher</span>
+        <span class="service">Prime Video</span>
+      </div>
+      <div class="detail">Season 4 · weekly, Wednesdays at 3:00 AM ET</div>
+      <div class="recent">Most recent episode: <b>&nbsp;</b></div>
+    </div>
+    <div class="status">
+      <span class="badge live">Airing</span>
+      <div class="status-date">&nbsp;</div>
+      <div class="status-note">Finale Sep 16</div>
+    </div>
+  </div>
+
+  <div class="card" data-show="lioness" data-name="Lioness" data-mode="cadence" data-weekday="0" data-start="2026-08-02" data-end="2026-09-20">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">Lioness</span>
+        <span class="service">Paramount+</span>
+      </div>
+      <div class="detail">Season 3 · weekly, Sundays</div>
+      <div class="recent">Most recent episode: <b>&nbsp;</b></div>
+    </div>
+    <div class="status">
+      <span class="badge live">Airing</span>
+      <div class="status-date">&nbsp;</div>
+      <div class="status-note">Finale Sep 20</div>
+    </div>
+  </div>
+
+  <div class="card" data-show="silo" data-name="Silo" data-mode="cadence" data-weekday="5" data-start="2026-07-03" data-end="2026-09-04">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">Silo</span>
+        <span class="service">Apple TV+</span>
+      </div>
+      <div class="detail">Season 3 · weekly, Fridays</div>
+      <div class="recent">Most recent episode: <b>&nbsp;</b></div>
+    </div>
+    <div class="status">
+      <span class="badge live">Airing</span>
+      <div class="status-date">&nbsp;</div>
+      <div class="status-note">Finale Sep 4</div>
+    </div>
+  </div>
+  </div>
+
+  <h2 class="section">On Hiatus &mdash; Returning This Fall</h2>
+
+  <div class="card">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">Tracker</span>
+        <span class="service">Paramount+ / CBS</span>
+      </div>
+      <div class="detail">Season 4 · Sundays on CBS, next-day on Paramount+</div>
+      <div class="recent">Most recent episode: <b>Sun, May 24, 2026</b> (S3 finale)</div>
+    </div>
+    <div class="status">
+      <span class="badge wait">Hiatus</span>
+      <div class="status-date">Returns Oct 4</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">Marshals</span>
+        <span class="service">Paramount+ / CBS</span>
+      </div>
+      <div class="detail">Season 2 · Sundays on CBS, next-day on Paramount+</div>
+      <div class="recent">Most recent episode: <b>Sun, May 24, 2026</b> (S1 finale)</div>
+    </div>
+    <div class="status">
+      <span class="badge wait">Hiatus</span>
+      <div class="status-date">Returns Oct 4</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">FBI</span>
+        <span class="service">Paramount+ / CBS</span>
+      </div>
+      <div class="detail">Season 9 · Mondays on CBS, next-day on Paramount+</div>
+      <div class="recent">Most recent episode: <b>Mon, May 18, 2026</b> (S8 finale)</div>
+    </div>
+    <div class="status">
+      <span class="badge wait">Hiatus</span>
+      <div class="status-date">Returns Oct 5</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">NCIS</span>
+        <span class="service">Paramount+ / CBS</span>
+      </div>
+      <div class="detail">Season 24 · Tuesdays on CBS, next-day on Paramount+</div>
+      <div class="recent">Most recent episode: <b>Tue, May 12, 2026</b> (S23 finale)</div>
+    </div>
+    <div class="status">
+      <span class="badge wait">Hiatus</span>
+      <div class="status-date">Returns Oct 6</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">Chicago Med</span>
+        <span class="service">Peacock / NBC</span>
+      </div>
+      <div class="detail">Season 12 · Wednesdays on NBC, next-day on Peacock</div>
+      <div class="recent">Most recent episode: <b>Wed, May 13, 2026</b> (S11 finale)</div>
+    </div>
+    <div class="status">
+      <span class="badge wait">Hiatus</span>
+      <div class="status-date">Returns Oct 7</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">Chicago Fire</span>
+        <span class="service">Peacock / NBC</span>
+      </div>
+      <div class="detail">Season 15 · Wednesdays on NBC, next-day on Peacock</div>
+      <div class="recent">Most recent episode: <b>Wed, May 13, 2026</b> (S14 finale)</div>
+    </div>
+    <div class="status">
+      <span class="badge wait">Hiatus</span>
+      <div class="status-date">Returns Oct 7</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">Sheriff Country</span>
+        <span class="service">Paramount+ / CBS</span>
+      </div>
+      <div class="detail">Season 2 · Fridays on CBS, next-day on Paramount+</div>
+      <div class="recent">Most recent episode: <b>Fri, May 22, 2026</b> (S1 finale)</div>
+    </div>
+    <div class="status">
+      <span class="badge wait">Hiatus</span>
+      <div class="status-date">Returns Oct 9</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">Fire Country</span>
+        <span class="service">Paramount+ / CBS</span>
+      </div>
+      <div class="detail">Season 5 · Fridays on CBS, next-day on Paramount+</div>
+      <div class="recent">Most recent episode: <b>Fri, May 22, 2026</b> (S4 finale)</div>
+    </div>
+    <div class="status">
+      <span class="badge wait">Hiatus</span>
+      <div class="status-date">Returns Oct 9</div>
+    </div>
+  </div>
+
+  <h2 class="section">On Hiatus &mdash; No Date Yet</h2>
+
+  <div class="card">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">Ride or Die</span>
+        <span class="service">Prime Video</span>
+      </div>
+      <div class="detail">Season 1 (8 eps) dropped all at once &middot; renewed for Season 2, no premiere date yet</div>
+      <div class="recent">Most recent episode: <b>Wed, Jul 15, 2026</b> (full S1 drop)</div>
+    </div>
+    <div class="status">
+      <span class="badge wait">Hiatus</span>
+      <div class="status-date">Renewed</div>
+      <div class="status-note">S2 date TBA</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">Ballard</span>
+        <span class="service">Prime Video</span>
+      </div>
+      <div class="detail">Season 1 dropped all at once &middot; Season 2 renewed, production ran behind &middot; reported "July 2026" window has passed unconfirmed</div>
+      <div class="recent">Most recent episode: <b>Wed, Jul 9, 2025</b> (full S1 drop)</div>
+    </div>
+    <div class="status">
+      <span class="badge wait">Hiatus</span>
+      <div class="status-date">Unclear</div>
+      <div class="status-note">Late 2026&ndash;early 2027, TBA</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">Matlock</span>
+        <span class="service">Paramount+ / CBS</span>
+      </div>
+      <div class="detail">Season 2 finale aired Apr 23 &middot; Season 3 renewed, moved to midseason</div>
+      <div class="recent">Most recent episode: <b>Thu, Apr 23, 2026</b> (S2 finale)</div>
+    </div>
+    <div class="status">
+      <span class="badge wait">Hiatus</span>
+      <div class="status-date">Returns Early 2027</div>
+      <div class="status-note">Likely Jan, date TBA</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">NCIS: Sydney</span>
+        <span class="service">Paramount+ / CBS</span>
+      </div>
+      <div class="detail">Season 3 finale aired Aug 17 &middot; Season 4 renewed, date not yet set</div>
+      <div class="recent">Most recent episode: <b>Mon, Aug 17, 2026</b> (S3 finale)</div>
+    </div>
+    <div class="status">
+      <span class="badge wait">Hiatus</span>
+      <div class="status-date">Returns 2027</div>
+      <div class="status-note">Date TBA</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">Landman</span>
+        <span class="service">Paramount+</span>
+      </div>
+      <div class="detail">Season 2 finale aired Jan 18 &middot; Season 3 renewed, filming Sep 2026&ndash;Q1 2027</div>
+      <div class="recent">Most recent episode: <b>Sun, Jan 18, 2026</b> (S2 finale)</div>
+    </div>
+    <div class="status">
+      <span class="badge wait">Hiatus</span>
+      <div class="status-date">Returns 2027</div>
+      <div class="status-note">Mid&ndash;late 2027, TBA</div>
+    </div>
+  </div>
+
+  <h2 class="section">No Longer Producing New Episodes</h2>
+
+  <div class="card">
+    <div class="card-main">
+      <div class="title-row">
+        <span class="show-title">Watson</span>
+        <span class="service">Paramount+ / CBS</span>
+      </div>
+      <div class="detail">Cancelled by CBS in March 2026 after two seasons</div>
+      <div class="recent">Most recent episode: <b>Sun, May 3, 2026</b> (series finale)</div>
+    </div>
+    <div class="status">
+      <span class="badge done">Cancelled</span>
+      <div class="status-note">No further episodes</div>
+    </div>
+  </div>
+
+  <footer>
+    Dates from published network/streamer schedules as of Aug 26, 2026 and can shift. A weekly check will flag anything that changes or newly returns.
+  </footer>
+</div>
+
+<script>
+  // Known, confirmed future premiere/return dates (ISO, America/New_York calendar day).
+  // Shows still marked TBA (Ballard, Matlock, NCIS: Sydney, Landman) are left out on purpose.
+  window.DATED_EVENTS = [
+    { name: "Tracker",          date: "2026-10-04" },
+    { name: "Marshals",         date: "2026-10-04" },
+    { name: "FBI",              date: "2026-10-05" },
+    { name: "NCIS",             date: "2026-10-06" },
+    { name: "Chicago Med",      date: "2026-10-07" },
+    { name: "Chicago Fire",     date: "2026-10-07" },
+    { name: "Sheriff Country",  date: "2026-10-09" },
+    { name: "Fire Country",     date: "2026-10-09" }
+  ];
+
+  // Two ways an #airingList card can describe its schedule:
+  //   data-mode="cadence"  -> assumes a strict every-7-days rhythm between data-start and
+  //                           data-end (data-weekday = 0..6, Sun..Sat). Good for streaming
+  //                           shows (Apple TV+/Prime/Paramount+ originals) that publish a
+  //                           fixed weekly drop with no preemptions.
+  //   data-mode="dates"    -> data-dates is a JSON array of every confirmed episode air
+  //                           date (ISO). Used for CBS/NBC broadcast shows, which get
+  //                           bumped for holidays, awards shows, and sports overruns, so a
+  //                           fixed cadence can't be trusted. data-complete="true" once the
+  //                           finale date is in the list (no more episodes this season);
+  //                           leave it "false"/absent while the network hasn't announced
+  //                           episodes past the last listed date yet.
+  (function () {
+    function todayET() {
+      var fmt = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' });
+      var parts = fmt.format(new Date()).split('-').map(Number);
+      return new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+    }
+    function isoToUTC(iso) {
+      var p = iso.split('-').map(Number);
+      return new Date(Date.UTC(p[0], p[1] - 1, p[2]));
+    }
+    function addDays(d, n) {
+      var r = new Date(d);
+      r.setUTCDate(r.getUTCDate() + n);
+      return r;
+    }
+    function fmtShort(d) {
+      return d.toLocaleDateString('en-US', { timeZone: 'UTC', weekday: 'short', month: 'short', day: 'numeric' });
+    }
+    function datesFromCard(card) {
+      try { return (JSON.parse(card.dataset.dates || '[]')).map(isoToUTC).sort(function (a, b) { return a - b; }); }
+      catch (e) { return []; }
+    }
+
+    // Returns { mostRecent, next (or null), complete (bool), pending (bool) }
+    function computeSchedule(card, today) {
+      if (card.dataset.mode === 'dates') {
+        var dates = datesFromCard(card);
+        var mostRecent = null, next = null;
+        dates.forEach(function (d) {
+          if (d <= today && (!mostRecent || d > mostRecent)) mostRecent = d;
+          if (d > today && (!next || d < next)) next = d;
+        });
+        if (!mostRecent) mostRecent = dates.length ? dates[0] : today;
+        var complete = card.dataset.complete === 'true' && !next;
+        return { mostRecent: mostRecent, next: next, complete: complete, pending: !next && !complete };
+      }
+      var weekday = parseInt(card.dataset.weekday, 10);
+      var start = isoToUTC(card.dataset.start);
+      var end = isoToUTC(card.dataset.end);
+      var diff = (today.getUTCDay() - weekday + 7) % 7;
+      var mr = addDays(today, -diff);
+      if (mr < start) mr = start;
+      if (mr > end) mr = end;
+      var nx = addDays(mr, 7);
+      var ended = nx > end || today > end;
+      return { mostRecent: mr, next: ended ? null : nx, complete: ended, pending: false };
+    }
+
+    function airsOn(card, d) {
+      if (card.dataset.mode === 'dates') {
+        return datesFromCard(card).some(function (x) { return x.getTime() === d.getTime(); });
+      }
+      var weekday = parseInt(card.dataset.weekday, 10);
+      var start = isoToUTC(card.dataset.start);
+      var end = isoToUTC(card.dataset.end);
+      return d.getUTCDay() === weekday && d >= start && d <= end;
+    }
+
+    var today = todayET();
+    var airingCards = Array.prototype.slice.call(document.querySelectorAll('#airingList .card'));
+
+    // --- Update each airing card's "most recent" / "next" text, live ---
+    var computed = airingCards.map(function (card) {
+      var sched = computeSchedule(card, today);
+      var recentB = card.querySelector('.recent b');
+      if (recentB) {
+        recentB.textContent = fmtShort(sched.mostRecent) + (sched.mostRecent.getTime() === today.getTime() ? ' (today)' : '');
+      }
+      var dateEl = card.querySelector('.status-date');
+      var noteEl = card.querySelector('.status-note');
+      var badgeEl = card.querySelector('.badge');
+      if (sched.complete) {
+        if (dateEl) dateEl.textContent = 'Season complete';
+        if (noteEl) noteEl.textContent = 'New season not yet announced';
+        if (badgeEl) { badgeEl.textContent = 'Hiatus'; badgeEl.classList.remove('live'); badgeEl.classList.add('wait'); }
+      } else if (sched.pending) {
+        if (dateEl) dateEl.textContent = 'Next: date TBA';
+        if (noteEl) noteEl.textContent = 'Schedule not yet announced past this episode';
+      } else if (dateEl) {
+        dateEl.textContent = 'Next: ' + fmtShort(sched.next);
+      }
+      // Sort key = the soonest relevant event: if today IS the air date, that counts as
+      // "now" (not skipped ahead to next week); otherwise it's the next upcoming episode.
+      // A show with nothing left scheduled (complete/pending) sorts to the end.
+      var sortKey = (sched.mostRecent.getTime() === today.getTime())
+        ? sched.mostRecent
+        : (sched.next || new Date(8640000000000000));
+      return { card: card, sortKey: sortKey };
+    });
+
+    // --- Sort "New Episodes Now" by soonest event first (today's air date counts as now) ---
+    computed.sort(function (a, b) { return a.sortKey - b.sortKey; });
+    var list = document.getElementById('airingList');
+    computed.forEach(function (c) { list.appendChild(c.card); });
+
+    // --- Build the This Week strip for the next 7 days, starting today ---
+    var dowNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var strip = document.getElementById('weekStrip');
+    var html = '';
+    for (var i = 0; i < 7; i++) {
+      var d = addDays(today, i);
+      var names = [];
+      airingCards.forEach(function (card) {
+        if (airsOn(card, d)) names.push(card.dataset.name);
+      });
+      (window.DATED_EVENTS || []).forEach(function (ev) {
+        if (isoToUTC(ev.date).getTime() === d.getTime()) names.push(ev.name);
+      });
+      var showHtml;
+      if (!names.length) {
+        showHtml = '<div class="none">&ndash;</div>';
+      } else {
+        var cls = names.length > 1 ? 'show multi' : 'show';
+        showHtml = '<div class="' + cls + '">' + names.map(function (n) { return '<span>' + n + '</span>'; }).join('') + '</div>';
+      }
+      html += '<div class="week-day' + (i === 0 ? ' today' : '') + '">' +
+        '<div class="dow">' + dowNames[d.getUTCDay()] + '</div>' +
+        '<div class="dom">' + d.getUTCDate() + '</div>' +
+        showHtml +
+        '</div>';
+    }
+    strip.innerHTML = html;
+
+    var endDay = addDays(today, 6);
+    var label = document.getElementById('weekLabel');
+    var startStr = monthNames[today.getUTCMonth()] + ' ' + today.getUTCDate();
+    var endStr = (endDay.getUTCMonth() !== today.getUTCMonth() ? monthNames[endDay.getUTCMonth()] + ' ' : '') + endDay.getUTCDate();
+    label.textContent = 'This Week · ' + startStr + '–' + endStr;
+  })();
+</script>
