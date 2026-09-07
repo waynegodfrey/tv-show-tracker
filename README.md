@@ -33,7 +33,7 @@ aren't yet in `#airingList`. Once a show's season actually starts airing, move
 it out of `DATED_EVENTS` and into `#airingList` as a `data-mode="dates"` card.
 
 Sections in the page: "New Episodes Now," "On Hiatus — Returning This Fall,"
-"On Hiatus — No Date Yet," and "No Longer Producing New Episodes."
+"On Hiatus — Returning Later," and "No Longer Producing New Episodes."
 
 ## Deployment
 
@@ -50,10 +50,9 @@ pushes. Quiet weeks (the common case) result in no commit at all, since the
 live script keeps showing correct dates for any show already correctly
 encoded, with no edit required.
 
-## Tracked shows (baseline as of Sep 1, 2026 — check the live file for current state)
+## Tracked shows (baseline as of Sep 7, 2026 — check the live file for current state)
 
 - **Lioness** — Paramount+ — S3 airing, cadence mode, Sundays, 2026-08-02 to 2026-09-20
-- **Silo** — Apple TV+ — S3 airing, cadence mode, Fridays, 2026-07-03 to 2026-09-04
 - **Reacher** — Prime Video — S4 airing, cadence mode, Wednesdays, 2026-08-12 to 2026-09-16
 - **Marshals** — Paramount+/CBS — S2 premieres 2026-10-04
 - **Tracker** — Paramount+/CBS — S4 premieres 2026-10-04
@@ -67,6 +66,7 @@ encoded, with no edit required.
 - **Matlock** — Paramount+/CBS — S3 renewed, midseason, expected ~Jan 2027, no confirmed date
 - **NCIS: Sydney** — Paramount+/CBS — S4 renewed, no confirmed date (expected January 2027, midseason)
 - **Landman** — Paramount+ — S3 renewed, filming Sep 2026-Q1 2027, outlook mid-to-late 2027
+- **Silo** — Apple TV+ — S3 finale aired 2026-09-04; S4 (final season) premieres 2027-07-09
 - **Ride or Die** — Prime Video — S2 renewed (confirmed Aug 31, 2026), no premiere date yet
 - **Watson** — Paramount+/CBS — cancelled by CBS March 2026 after 2 seasons
 
