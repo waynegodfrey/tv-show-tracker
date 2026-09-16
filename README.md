@@ -50,7 +50,7 @@ pushes. Quiet weeks (the common case) result in no commit at all, since the
 live script keeps showing correct dates for any show already correctly
 encoded, with no edit required.
 
-## Tracked shows (baseline as of Sep 7, 2026 — check the live file for current state)
+## Tracked shows (baseline as of Sep 16, 2026 — check the live file for current state)
 
 - **Lioness** — Paramount+ — S3 airing, cadence mode, Sundays, 2026-08-02 to 2026-09-20
 - **Reacher** — Prime Video — S4 airing, cadence mode, Wednesdays, 2026-08-12 to 2026-09-16
@@ -67,6 +67,7 @@ encoded, with no edit required.
 - **NCIS: Sydney** — Paramount+/CBS — S4 renewed, no confirmed date (expected January 2027, midseason)
 - **Landman** — Paramount+ — S3 renewed, filming Sep 2026-Q1 2027, outlook mid-to-late 2027
 - **Silo** — Apple TV+ — S3 finale aired 2026-09-04; S4 (final season) premieres 2027-07-09
+- **Neagley** — Prime Video — Reacher spin-off; full S1 (8 eps) dropped 2026-09-16, S2 not yet ordered
 - **Ride or Die** — Prime Video — S2 renewed (confirmed Aug 31, 2026), no premiere date yet
 - **Watson** — Paramount+/CBS — cancelled by CBS March 2026 after 2 seasons
 
