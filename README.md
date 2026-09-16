@@ -20,7 +20,8 @@ Airing shows live inside `<div id="airingList">`. Each card has `data-mode`:
 
 - `data-mode="cadence"` (`data-weekday` 0=Sun..6=Sat, `data-start`, `data-end`,
   ISO dates): assumes a strict every-7-days rhythm. Only use for streaming-only
-  shows with no preemptions (currently Reacher, Lioness, Silo).
+  shows with no preemptions (currently Lioness; Reacher and Silo used this mode
+  while their seasons were running).
 - `data-mode="dates"` (`data-dates='["2026-10-06",...]'` JSON array of every
   confirmed episode date, `data-complete="true"` once the finale is included):
   always use for CBS/NBC broadcast shows, since those get bumped for holidays,
@@ -44,16 +45,25 @@ below to push updates without a human in the loop.
 
 ## Automation
 
-A scheduled task researches each tracked show weekly, and — only when
-something actually changed — edits `index.html` directly in a local clone and
-pushes. Quiet weeks (the common case) result in no commit at all, since the
-live script keeps showing correct dates for any show already correctly
-encoded, with no edit required.
+A scheduled task researches each tracked show weekly, edits `index.html` in a
+read-only clone, and publishes via an ops-broker tool that holds the deploy key.
+Most weeks no show data actually changes, since the live script keeps showing
+correct dates for any show already correctly encoded. Even so, every run bumps
+the "Last checked" line and pushes: that makes the live page its own heartbeat,
+so a stale date on the dashboard means the task did not run. Without that bump,
+a run that worked and a run that never happened would leave identical traces.
+
+When a season finishes, its card moves out of `#airingList` into "On Hiatus —
+Returning Later" as a plain card. This matters because the script auto-writes
+"New season not yet announced" onto any completed `#airingList` card, which is
+wrong for a show already renewed. If the finale should still appear in the
+current "This Week" strip, add a past-dated `DATED_EVENTS` entry for it and
+prune that entry once the week has passed.
 
 ## Tracked shows (baseline as of Sep 16, 2026 — check the live file for current state)
 
 - **Lioness** — Paramount+ — S3 airing, cadence mode, Sundays, 2026-08-02 to 2026-09-20
-- **Reacher** — Prime Video — S4 airing, cadence mode, Wednesdays, 2026-08-12 to 2026-09-16
+- **Reacher** — Prime Video — S4 finale aired 2026-09-16; S5 renewed May 2026, filming since Jul 2026, date TBA (2027)
 - **Marshals** — Paramount+/CBS — S2 premieres 2026-10-04
 - **Tracker** — Paramount+/CBS — S4 premieres 2026-10-04
 - **FBI** — Paramount+/CBS — S9 premieres 2026-10-05
