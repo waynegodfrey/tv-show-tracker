@@ -20,13 +20,20 @@ Airing shows live inside `<div id="airingList">`. Each card has `data-mode`:
 
 - `data-mode="cadence"` (`data-weekday` 0=Sun..6=Sat, `data-start`, `data-end`,
   ISO dates): assumes a strict every-7-days rhythm. Only use for streaming-only
-  shows with no preemptions (currently Lioness; Reacher and Silo used this mode
-  while their seasons were running).
+  shows with no preemptions (Lioness, Reacher and Silo each used this mode
+  while their seasons were running; no show is using it at the moment).
 - `data-mode="dates"` (`data-dates='["2026-10-06",...]'` JSON array of every
   confirmed episode date, `data-complete="true"` once the finale is included):
   always use for CBS/NBC broadcast shows, since those get bumped for holidays,
   awards shows, and sports overruns. A fixed cadence assumption is known to be
   wrong for these.
+
+When `#airingList` is empty (no season currently running), a static
+"Nothing airing right now" placeholder card sits immediately **after** the
+`#airingList` div — outside it, so the script's `#airingList .card` query never
+picks it up. Remove that placeholder as soon as a real show is promoted into
+`#airingList`. It was added 2026-09-21, when Lioness's finale left the section
+empty until the Oct 4 broadcast premieres.
 
 `window.DATED_EVENTS` (a `{name, date}` list in the same script) drives the
 "This Week" strip for shows with only a single confirmed future date that
@@ -60,9 +67,9 @@ wrong for a show already renewed. If the finale should still appear in the
 current "This Week" strip, add a past-dated `DATED_EVENTS` entry for it and
 prune that entry once the week has passed.
 
-## Tracked shows (baseline as of Sep 16, 2026 — check the live file for current state)
+## Tracked shows (baseline as of Sep 21, 2026 — check the live file for current state)
 
-- **Lioness** — Paramount+ — S3 airing, cadence mode, Sundays, 2026-08-02 to 2026-09-20
+- **Lioness** — Paramount+ — S3 finale aired 2026-09-20; S4 not yet ordered by Paramount+ (renewal decision pending)
 - **Reacher** — Prime Video — S4 finale aired 2026-09-16; S5 renewed May 2026, filming since Jul 2026, date TBA (2027)
 - **Marshals** — Paramount+/CBS — S2 premieres 2026-10-04
 - **Tracker** — Paramount+/CBS — S4 premieres 2026-10-04
@@ -78,7 +85,7 @@ prune that entry once the week has passed.
 - **Landman** — Paramount+ — S3 renewed, filming Sep 2026-Q1 2027, outlook mid-to-late 2027
 - **Silo** — Apple TV+ — S3 finale aired 2026-09-04; S4 (final season) premieres 2027-07-09
 - **Neagley** — Prime Video — Reacher spin-off; full S1 (8 eps) dropped 2026-09-16, S2 not yet ordered
-- **Ride or Die** — Prime Video — S2 renewed (confirmed Aug 31, 2026), no premiere date yet
+- **Ride or Die** — Prime Video — CANCELLED Sep 19, 2026 after one season, reversing the Aug 31 renewal; Paramount TV Studios shopping it elsewhere
 - **Watson** — Paramount+/CBS — cancelled by CBS March 2026 after 2 seasons
 
 ## Note on the older Anthropic Artifact version
