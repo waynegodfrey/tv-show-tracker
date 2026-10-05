@@ -33,7 +33,8 @@ When `#airingList` is empty (no season currently running), a static
 `#airingList` div — outside it, so the script's `#airingList .card` query never
 picks it up. Remove that placeholder as soon as a real show is promoted into
 `#airingList`. It was added 2026-09-21, when Lioness's finale left the section
-empty until the Oct 4 broadcast premieres.
+empty until the Oct 4 broadcast premieres; it was removed 2026-10-05 when
+Marshals, Tracker and FBI were promoted.
 
 `window.DATED_EVENTS` (a `{name, date}` list in the same script) drives the
 "This Week" strip for shows with only a single confirmed future date that
@@ -71,9 +72,9 @@ prune that entry once the week has passed.
 
 - **Lioness** — Paramount+ — S3 finale aired 2026-09-20; S4 not yet ordered by Paramount+ (renewal decision pending)
 - **Reacher** — Prime Video — S4 finale aired 2026-09-16; S5 renewed May 2026, filming since Jul 2026, date TBA (2027)
-- **Marshals** — Paramount+/CBS — S2 premieres 2026-10-04
-- **Tracker** — Paramount+/CBS — S4 premieres 2026-10-04
-- **FBI** — Paramount+/CBS — S9 premieres 2026-10-05
+- **Marshals** — Paramount+/CBS — S2 airing since 2026-10-04 (dates card, confirmed through Nov 22)
+- **Tracker** — Paramount+/CBS — S4 airing since 2026-10-04 (dates card, confirmed through Nov 1)
+- **FBI** — Paramount+/CBS — S9 airing since 2026-10-05 (dates card, confirmed through Oct 19)
 - **NCIS** — Paramount+/CBS — S24 premieres 2026-10-06
 - **Chicago Med** — Peacock/NBC — S12 premieres 2026-10-07
 - **Chicago Fire** — Peacock/NBC — S15 premieres 2026-10-07
