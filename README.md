@@ -75,9 +75,9 @@ prune that entry once the week has passed.
 - **Marshals** — Paramount+/CBS — S2 airing since 2026-10-04 (dates card, confirmed through Nov 22)
 - **Tracker** — Paramount+/CBS — S4 airing since 2026-10-04 (dates card, confirmed through Nov 1)
 - **FBI** — Paramount+/CBS — S9 airing since 2026-10-05 (dates card, confirmed through Oct 19)
-- **NCIS** — Paramount+/CBS — S24 premieres 2026-10-06
-- **Chicago Med** — Peacock/NBC — S12 premieres 2026-10-07
-- **Chicago Fire** — Peacock/NBC — S15 premieres 2026-10-07
+- **NCIS** — Paramount+/CBS — S24 airing since 2026-10-06 (dates card, confirmed through Oct 20)
+- **Chicago Med** — Peacock/NBC — S12 airing since 2026-10-07 (dates card, confirmed through Oct 14)
+- **Chicago Fire** — Peacock/NBC — S15 airing since 2026-10-07 (dates card, confirmed through Oct 14)
 - **Sheriff Country** — Paramount+/CBS — S2 premieres 2026-10-09
 - **Fire Country** — Paramount+/CBS — S5 premieres 2026-10-09
 - **Ballard** — Prime Video — S2 renewed, no confirmed date (est. late 2026-early 2027)
