@@ -80,6 +80,7 @@ prune that entry once the week has passed.
 - **Chicago Fire** — Peacock/NBC — S15 airing since 2026-10-07 (dates card, confirmed through Oct 14)
 - **Sheriff Country** — Paramount+/CBS — S2 premieres 2026-10-09
 - **Fire Country** — Paramount+/CBS — S5 premieres 2026-10-09
+- **The Diplomat** — Netflix — S4 (8 eps) full-season drop 2026-10-15, 3 AM ET (one-date dates card, data-complete="true"; move to "On Hiatus" after the drop week); S5 not yet announced
 - **Ballard** — Prime Video — S2 renewed, no confirmed date (est. late 2026-early 2027)
 - **Matlock** — Paramount+/CBS — S3 renewed, midseason, expected ~Jan 2027, no confirmed date
 - **NCIS: Sydney** — Paramount+/CBS — S4 renewed, no confirmed date (expected January 2027, midseason)
