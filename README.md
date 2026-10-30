@@ -89,7 +89,7 @@ prune that entry once the week has passed.
 - **Silo** — Apple TV+ — S3 finale aired 2026-09-04; S4 (final season) premieres 2027-07-09
 - **Neagley** — Prime Video — Reacher spin-off; full S1 (8 eps) dropped 2026-09-16, S2 renewed Oct 1, 2026 (no premiere date yet)
 - **Ride or Die** — Prime Video — CANCELLED Sep 19, 2026 after one season, reversing the Aug 31 renewal; Paramount TV Studios shopping it elsewhere
-- **Watson** — Paramount+/CBS — cancelled by CBS in March 2026 after 2 seasons
+- **Watson** — Paramount+/CBS — cancelled by CBS March 2026 after 2 seasons
 
 ## Note on the older Anthropic Artifact version
 
